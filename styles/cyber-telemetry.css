@@ -1,0 +1,344 @@
+/**
+ * KERNEL//BREACH - Industrial Cyber-Telemetry Visual System
+ * High-voltage diegetic hardware aesthetic: obsidian silicon, copper traces, phosphor glow,
+ * chamfered 45deg corners, and CRT scanlines.
+ */
+
+:root {
+  /* Substrate & Metals */
+  --bg-deep: #05070A;
+  --bg-silicon: #090D15;
+  --bg-panel: #0E1420;
+  --bg-panel-elevated: #151D2E;
+  --border-trace: #24324D;
+  --border-copper: #D97736;
+  --border-active: #00F0FF;
+
+  /* Telemetry Signal Phosphors */
+  --color-cyan: #00F0FF;
+  --color-amber: #FFB000;
+  --color-crimson: #FF2A54;
+  --color-emerald: #00FFA3;
+  --color-purple: #B55FE6;
+  --color-copper: #D97736;
+
+  /* Typography */
+  --text-primary: #EDF2F7;
+  --text-secondary: #8E9EB5;
+  --text-muted: #4B5A70;
+  --text-accent: #00F0FF;
+
+  /* Fonts */
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'IBM Plex Mono', monospace;
+  --font-display: 'Space Grotesk', 'Chakra Petch', system-ui, sans-serif;
+  --font-serif: 'Newsreader', Georgia, serif;
+
+  /* UI Dimensions */
+  --header-height: 64px;
+  --scrubber-height: 58px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* CRT Scanline & Grain Overlay */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.22) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.02),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.02)
+  );
+  background-size: 100% 3px, 6px 100%;
+  opacity: 0.7;
+}
+
+.crt-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.85);
+}
+
+/* Root Layout Container */
+#app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background: 
+    radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.04) 0%, transparent 60%),
+    linear-gradient(to right, rgba(36, 50, 77, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(36, 50, 77, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+}
+
+/* Structural Chamfered Panels (45deg clip-path) */
+.panel-chamfer {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-trace);
+  position: relative;
+  clip-path: polygon(
+    0 8px, 
+    8px 0, 
+    calc(100% - 8px) 0, 
+    100% 8px, 
+    100% calc(100% - 8px), 
+    calc(100% - 8px) 100%, 
+    8px 100%, 
+    0 calc(100% - 8px)
+  );
+}
+
+/* Top Master Telemetry Header */
+.master-header {
+  height: var(--header-height);
+  background: var(--bg-silicon);
+  border-bottom: 2px solid var(--border-trace);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 280px;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-cyan);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-badge {
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 6px;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid var(--color-cyan);
+  color: var(--color-cyan);
+  letter-spacing: 0.08em;
+}
+
+.header-telemetry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.telem-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.telem-val {
+  color: var(--color-amber);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   UNMISSABLE PROMINENT MODE TOGGLE SWITCH CONSOLE
+   ========================================================================== */
+.master-mode-console {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.mode-toggle-console-box {
+  display: flex;
+  align-items: center;
+  background: #04060A;
+  border: 1.5px solid var(--border-trace);
+  padding: 4px;
+  gap: 6px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 240, 255, 0.08);
+}
+
+.mode-toggle-option {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  text-transform: uppercase;
+}
+
+.mode-toggle-option .toggle-beacon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #24324D;
+  transition: all 0.2s ease;
+}
+
+.mode-toggle-option:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Active Metroidvania Mode State */
+.mode-toggle-option.active.metroid {
+  background: rgba(0, 240, 255, 0.14);
+  color: #FFF;
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+}
+
+.mode-toggle-option.active.metroid .toggle-beacon {
+  background: var(--color-cyan);
+  box-shadow: 0 0 8px var(--color-cyan);
+}
+
+/* Active Linear Syllabus Mode State */
+.mode-toggle-option.active.linear {
+  background: rgba(255, 176, 0, 0.14);
+  color: #FFF;
+  border-color: var(--color-amber);
+  box-shadow: 0 0 12px rgba(255, 176, 0, 0.3);
+}
+
+.mode-toggle-option.active.linear .toggle-beacon {
+  background: var(--color-amber);
+  box-shadow: 0 0 8px var(--color-amber);
+}
+
+.mode-helper-hint {
+  font-size: 8px;
+  font-family: var(--font-mono);
+  color: var(--color-copper);
+  letter-spacing: 0.1em;
+}
+
+/* Main Viewport Workspace */
+.main-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+}
+
+/* Sound & Help Controls */
+.icon-btn {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-trace);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.icon-btn:hover {
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.icon-btn.active {
+  color: var(--color-emerald);
+  border-color: var(--color-emerald);
+}
+
+/* Industrial Buttons */
+.btn-industrial {
+  background: var(--bg-panel-elevated);
+  border: 1px solid var(--border-trace);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 8px 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  transition: all 0.15s ease;
+}
+
+.btn-industrial:hover {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.btn-industrial.primary {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.btn-industrial.primary:hover {
+  background: var(--color-cyan);
+  color: var(--bg-deep);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.btn-industrial.danger {
+  border-color: var(--color-crimson);
+  color: var(--color-crimson);
+}
+
+.btn-industrial.danger:hover {
+  background: var(--color-crimson);
+  color: #FFF;
+}

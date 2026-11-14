@@ -1,0 +1,6 @@
+# Compiled static app is self-contained in index.html
+__pycache__/
+*.pyc
+.DS_Store
+quizzes_all.json
+theory_part1.json

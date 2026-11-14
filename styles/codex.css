@@ -1,0 +1,249 @@
+/**
+ * Codex Drawer & 4-Layer Room Workbench Styles
+ */
+
+/* ==========================================================================
+   ROOM WORKBENCH OVERLAY
+   ========================================================================== */
+#workbench-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 7, 10, 0.94);
+  backdrop-filter: blur(12px);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#workbench-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.workbench-top-bar {
+  height: 48px;
+  background: var(--bg-silicon);
+  border-bottom: 1px solid var(--border-trace);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.workbench-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.wb-sector-tag {
+  color: var(--color-cyan);
+  font-weight: 700;
+}
+
+.wb-title {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.workbench-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 4-Layer Room Body Layout */
+.workbench-content-split {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  overflow: hidden;
+  position: relative;
+}
+
+.workbench-main-stage {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-trace);
+  overflow-y: auto;
+  padding: 24px;
+  gap: 20px;
+}
+
+/* Layer 1: Anomaly Banner */
+.anomaly-card {
+  background: rgba(255, 42, 84, 0.08);
+  border: 1px solid rgba(255, 42, 84, 0.35);
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.anomaly-icon {
+  font-size: 20px;
+  color: var(--color-crimson);
+}
+
+.anomaly-text h5 {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-crimson);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.anomaly-text p {
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+/* Layer 2: Interactive Workbench Simulation Canvas */
+.simulation-stage-box {
+  background: var(--bg-silicon);
+  border: 1px solid var(--border-trace);
+  min-height: 400px;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.stage-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-cyan);
+  text-transform: uppercase;
+}
+
+/* Layer 4: Capability Boss Terminal */
+.capability-terminal-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-trace);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cap-term-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cap-badge-large {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255, 176, 0, 0.15);
+  border: 1px solid var(--color-amber);
+  color: var(--color-amber);
+  padding: 6px 12px;
+}
+
+.cap-term-info h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cap-term-info p {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   LAYER 3: SILBERSCHATZ CODEX SIDE DRAWER
+   ========================================================================== */
+.codex-sidebar {
+  background: var(--bg-silicon);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.codex-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-trace);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.codex-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-copper);
+  text-transform: uppercase;
+}
+
+.codex-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.codex-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.codex-sec-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.codex-book-ref {
+  background: rgba(217, 119, 54, 0.08);
+  border-left: 2px solid var(--border-copper);
+  padding: 10px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.codex-formula-box {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-trace);
+  padding: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-cyan);
+}
+
+.codex-slide-source {
+  font-size: 11px;
+  color: var(--text-secondary);
+  word-break: break-all;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}

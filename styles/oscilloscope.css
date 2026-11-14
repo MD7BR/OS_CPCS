@@ -1,0 +1,138 @@
+/**
+ * Oscilloscope Scrubber & Simulation Telemetry Controls
+ */
+
+.bottom-scrubber-bar {
+  height: var(--scrubber-height);
+  background: var(--bg-silicon);
+  border-top: 1px solid var(--border-trace);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+  position: relative;
+}
+
+.scrubber-transport {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.transport-btn {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-trace);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  transition: all 0.15s ease;
+}
+
+.transport-btn:hover {
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.transport-btn.play-btn {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.transport-btn.play-btn.playing {
+  background: rgba(255, 176, 0, 0.15);
+  border-color: var(--color-amber);
+  color: var(--color-amber);
+}
+
+.scrubber-speed-group {
+  display: flex;
+  align-items: center;
+  background: var(--bg-deep);
+  border: 1px solid var(--border-trace);
+  padding: 2px;
+  gap: 2px;
+}
+
+.speed-chip {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.speed-chip:hover {
+  color: var(--text-primary);
+}
+
+.speed-chip.active {
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--color-cyan);
+}
+
+.scrubber-center {
+  flex: 1;
+  max-width: 480px;
+  margin: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sim-time-display {
+  font-size: 11px;
+  color: var(--color-amber);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.timeline-track-wrapper {
+  flex: 1;
+  position: relative;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.timeline-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--border-trace);
+  outline: none;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.timeline-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 16px;
+  background: var(--color-cyan);
+  border: 1px solid #FFF;
+  cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+  box-shadow: 0 0 8px var(--color-cyan);
+}
+
+.scrubber-telemetry {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 11px;
+}
