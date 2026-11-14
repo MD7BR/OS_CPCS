@@ -1015,7 +1015,7 @@ body {
 }
 
 .linear-header {
-  max-width: 980px;
+  max-width: 1360px;
   margin: 0 auto;
   width: 100%;
   border-bottom: 1px solid var(--border-trace);
@@ -1041,7 +1041,7 @@ body {
 }
 
 .linear-sector-block {
-  max-width: 980px;
+  max-width: 1360px;
   margin: 0 auto;
   width: 100%;
   display: flex;
@@ -1728,7 +1728,7 @@ body {
   line-height: 1.68;
   color: var(--text-secondary);
   width: 100%;
-  max-width: 900px;
+  max-width: none;
   padding-bottom: 40px;
   user-select: text;
   -webkit-user-select: text;
@@ -1877,7 +1877,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-width: 900px;
+  width: 100%;
+  max-width: none;
   user-select: none;
   -webkit-user-select: none;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
@@ -2161,7 +2162,8 @@ body {
   border-radius: 4px;
   padding: 10px 14px;
   margin-bottom: 12px;
-  max-width: 900px;
+  width: 100%;
+  max-width: none;
   font-size: 12px;
   color: var(--text-primary);
   display: flex;
@@ -2225,7 +2227,8 @@ body {
 
 /* Interactive Bug-Hunt & Socratic Section */
 .teach-zone {
-  max-width: 900px;
+  width: 100%;
+  max-width: none;
   margin-top: 8px;
   display: flex;
   flex-direction: column;
@@ -2233,6 +2236,13 @@ body {
   user-select: none;
   border-top: 2px dashed var(--border-trace);
   padding-top: 20px;
+}
+
+.teach-pair-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 14px;
+  align-items: start;
 }
 
 .teach-zone-heading {
@@ -8426,6 +8436,7 @@ const W16_DiskScheduling = {
             <span>🔬 Spot the Mistake &amp; Socratic Intuition Lab</span>
             <span class="bug-hunt-status ${bugsSolved === hunts.length && hunts.length > 0 ? 'solved' : ''}">${bugsSolved} / ${hunts.length} BUG HUNTS SOLVED</span>
           </div>
+          <div class="teach-pair-grid">
           ${hunts.map((h, hIdx) => {
             const solved = state.spottedBugs.has(deckId + ':' + hIdx);
             return `
@@ -8445,10 +8456,12 @@ const W16_DiskScheduling = {
               </div>
             `;
           }).join('')}
+          </div>
 
           <div class="teach-zone-heading" style="color: var(--color-amber); margin-top: 4px;">
             <span>🧠 Socratic "Pause &amp; Predict" Checks</span>
           </div>
+          <div class="teach-pair-grid">
           ${socratic.map((s, sIdx) => `
             <div class="socratic-card">
               <div class="socratic-q">Q${sIdx + 1}: ${escHtml(s.q)}</div>
@@ -8456,6 +8469,7 @@ const W16_DiskScheduling = {
               <div class="socratic-answer" id="socratic-ans-${sIdx}">${escHtml(s.a)}</div>
             </div>
           `).join('')}
+          </div>
         </section>
       `;
     }
