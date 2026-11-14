@@ -48,4 +48,4 @@ python3 -m http.server 8080
 
 - `index.html` — Standalone, compiled single-file web application (HTML + CSS + JS + embedded datasets).
 - `workspace_build_src/` — Source Python modules and `knowledge_trove/build_and_inject.py` generator used to assemble the knowledge trove into `index.html`.
-- `.github/workflows/pages.yml` — Static deployment workflow for GitHub Pages.
+- `.nojekyll` — Configures GitHub Pages to serve static files directly from the `main` branch root.
