@@ -2,7 +2,7 @@
 <html lang="en" data-theme="cyan">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>KERNEL//BREACH: Unofficial AI OS Study Companion (CPCS-361 Topics · Silberschatz 10th Ed.)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -205,8 +205,10 @@ body {
   line-height: 1.5;
   overflow: hidden;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -232,6 +234,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
   position: relative;
   background: 
@@ -527,6 +530,9 @@ body {
   overflow: hidden;
   cursor: grab;
   z-index: 2;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .map-viewport-wrapper:active {
@@ -1827,7 +1833,7 @@ body {
 
 .compare-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 12px;
   margin: 12px 0;
 }
@@ -2240,7 +2246,7 @@ body {
 
 .teach-pair-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
   gap: 14px;
   align-items: start;
 }
@@ -2490,7 +2496,7 @@ body {
 
 .formula-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
   gap: 14px;
 }
 
@@ -2543,7 +2549,7 @@ body {
 
 .glossary-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 12px;
 }
 
@@ -2583,6 +2589,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
   border-bottom: 1px solid var(--border-trace);
   padding-bottom: 8px;
 }
@@ -3293,6 +3301,374 @@ kbd {
   margin-bottom: 6px;
 }
 
+/* =========================================================
+   RESPONSIVE LAYOUT: IPAD, TABLETS & MOBILE PHONES
+   ========================================================= */
+.wb-mobile-codex-btn,
+.codex-close-btn,
+.codex-backdrop {
+  display: none;
+}
+
+.codex-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.codex-close-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1;
+}
+
+@media (max-width: 1180px) {
+  .master-header {
+    height: auto;
+    min-height: 52px;
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .header-left {
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .header-center {
+    order: 2;
+  }
+
+  .header-right {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .linear-syllabus-wrapper {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hud-capabilities-bar {
+    top: 10px;
+    left: 10px;
+    max-width: calc(100% - 20px);
+    padding: 8px 10px;
+  }
+
+  .hud-radar-panel {
+    left: 10px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    width: 220px;
+    padding: 8px 10px;
+  }
+
+  .map-zoom-controls {
+    right: 10px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .workbench-top-bar {
+    height: auto;
+    min-height: 50px;
+    padding: 8px 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .workbench-breadcrumb {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .workbench-actions {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .wb-mobile-codex-btn,
+  .codex-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .workbench-body {
+    position: relative;
+  }
+
+  .codex-backdrop.open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.62);
+    z-index: 210;
+  }
+
+  .codex-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(380px, 88vw);
+    min-width: 0;
+    max-width: 88vw;
+    z-index: 220;
+    transform: translateX(100%);
+    transition: transform 0.22s ease;
+    box-shadow: -12px 0 32px rgba(0, 0, 0, 0.78);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .codex-drawer.mobile-open {
+    transform: translateX(0);
+  }
+
+  [data-theme="light"] .codex-drawer {
+    background: var(--bg-panel);
+  }
+
+  .workbench-main {
+    padding: 16px;
+  }
+
+  .bottom-scrubber-bar {
+    padding: 6px 14px calc(6px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-width: 768px) {
+  .master-header {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .brand-title {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+  }
+
+  .header-left {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .header-center {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .master-mode-console {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .mode-toggle-console-box {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .mode-console-sub {
+    display: none;
+  }
+
+  .hud-capabilities-bar {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    max-width: none;
+    padding: 6px 8px;
+  }
+
+  .hud-cap-title {
+    margin-bottom: 5px;
+    font-size: 9px;
+  }
+
+  .hud-cap-grid {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cap-slot {
+    flex: 0 0 auto;
+    min-width: 112px;
+    padding: 4px 6px;
+  }
+
+  .hud-radar-panel {
+    left: 8px;
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    width: calc(100% - 142px);
+    max-width: 215px;
+    padding: 6px 8px;
+  }
+
+  .radar-header {
+    font-size: 8px;
+    margin-bottom: 5px;
+  }
+
+  .radar-cell {
+    height: 20px;
+    font-size: 8px;
+  }
+
+  .map-zoom-controls {
+    right: 8px;
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .zoom-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .linear-syllabus-wrapper {
+    padding: 12px 10px calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .syllabus-header-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  #syllabus-search {
+    width: 100% !important;
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  #glossary-search,
+  #wb-deck-notes,
+  .play-text {
+    font-size: 16px;
+  }
+
+  .workbench-top-bar {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .workbench-breadcrumb {
+    width: 100%;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .workbench-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .workbench-actions .btn-industrial {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .workbench-main {
+    padding: 12px 10px;
+  }
+
+  .lab-tabs-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .lab-tab-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+
+  .pedagogy-toolbar {
+    position: static;
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .theory-article {
+    padding: 14px 12px;
+    font-size: 14px;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  .data-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+
+  .handwritten-sheet {
+    padding: 12px 12px 12px 28px;
+  }
+
+  .bottom-scrubber-bar {
+    height: auto;
+    min-height: 46px;
+    padding: 6px 10px calc(6px + env(safe-area-inset-bottom, 0px));
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .scrubber-center {
+    order: 3;
+    width: 100%;
+    max-width: none;
+  }
+
+  .scrubber-telemetry {
+    margin-left: auto;
+    font-size: 10px;
+  }
+
+  .modal-overlay {
+    padding: 8px;
+  }
+
+  .modal-dialog {
+    width: 100%;
+    max-width: 100%;
+    max-height: 92dvh;
+  }
+
+  .modal-header {
+    padding: 10px 14px;
+  }
+
+  .modal-body {
+    padding: 12px;
+  }
+
+  .formula-sandbox {
+    padding: 10px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -3446,12 +3822,14 @@ kbd {
             <button class="btn-industrial" id="wb-btn-prev" title="Previous Deck (Press '[')">← PREV</button>
             <button class="btn-industrial" id="wb-btn-next" title="Next Deck (Press ']')">NEXT →</button>
             <button class="btn-industrial wb-flag-btn" id="wb-btn-flag" title="Flag this deck for targeted review">☆ FLAG</button>
+            <button class="btn-industrial wb-mobile-codex-btn" id="wb-btn-codex" title="Open Silberschatz Codex &amp; Deck Notes">📘 CODEX</button>
             <button class="btn-industrial primary" id="wb-btn-unlock">SYNTHESIZE CAPABILITY</button>
             <button class="btn-industrial" id="wb-btn-close">CLOSE [ESC]</button>
           </div>
         </div>
 
         <div class="workbench-body">
+          <div class="codex-backdrop" id="wb-codex-backdrop"></div>
           <div class="workbench-main" id="wb-main-scroll">
             <!-- Anomaly Banner -->
             <div class="anomaly-strip alert" id="wb-anomaly-strip">
@@ -3476,10 +3854,13 @@ kbd {
           </div>
 
           <!-- Codex Drawer Sidebar -->
-          <div class="codex-drawer">
+          <div class="codex-drawer" id="wb-codex-drawer">
             <div class="codex-header">
               <span class="codex-title">SILBERSCHATZ 10TH ED. CODEX</span>
-              <span class="brand-badge" id="wb-codex-chap-badge">Ch. 1 &amp; 2</span>
+              <div class="codex-header-actions">
+                <span class="brand-badge" id="wb-codex-chap-badge">Ch. 1 &amp; 2</span>
+                <button class="btn-industrial codex-close-btn" id="wb-codex-close" title="Close Codex Drawer">✕</button>
+              </div>
             </div>
             <div class="codex-content">
               <div class="codex-field">
@@ -3891,7 +4272,7 @@ const W0_DualModeSimulator = {
     const isKernel = this.modeBit === 0;
     el.innerHTML = `
       <div style="display: flex; flex-direction: column; gap: 14px;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 14px;">
           <div class="panel-chamfer" style="padding: 14px; background: rgba(0,0,0,0.4); border: 1.5px solid ${isKernel ? 'var(--color-crimson)' : 'var(--color-cyan)'};">
             <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase;">CPU Hardware Register: Mode Bit</div>
             <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
@@ -3957,7 +4338,7 @@ const W11_CoffmanRAG = {
       <div style="display: flex; flex-direction: column; gap: 14px;">
         <div class="panel-chamfer" style="padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-trace);">
           <div style="font-size: 11px; font-weight: 700; color: var(--color-cyan); margin-bottom: 8px;">THE 4 COFFMAN CONDITIONS (ALL 4 REQUIRED SIMULTANEOUSLY FOR DEADLOCK):</div>
-          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 10px;">
             <button class="btn-industrial ${c.mutualExclusion ? 'danger' : ''}" onclick="W11_CoffmanRAG.toggle('mutualExclusion')" style="justify-content: space-between; padding: 10px 14px;">
               <span>1. Mutual Exclusion</span>
               <strong>${c.mutualExclusion ? '⚠️ ACTIVE (Locked)' : '✓ SPOOLED/SHARED'}</strong>
@@ -6776,7 +7157,14 @@ const W16_DiskScheduling = {
     const nodesLayer = document.getElementById('nodes-layer');
     const viewportEl = document.getElementById('map-viewport');
 
-    let panX = 40, panY = 20, scale = 0.82, isPanning = false, startX = 0, startY = 0;
+    function getDefaultMapView() {
+      const vw = (typeof window !== 'undefined' && window.innerWidth) || 1280;
+      if (vw <= 640) return { panX: 12, panY: 84, scale: 0.44 };
+      if (vw <= 1024) return { panX: 24, panY: 56, scale: 0.62 };
+      return { panX: 40, panY: 20, scale: 0.82 };
+    }
+    const _initMapView = getDefaultMapView();
+    let panX = _initMapView.panX, panY = _initMapView.panY, scale = _initMapView.scale, isPanning = false, startX = 0, startY = 0;
     let _transformRaf = null;
 
     function isNodeUnlocked(node) {
@@ -7063,13 +7451,94 @@ const W16_DiskScheduling = {
     viewportEl.addEventListener('wheel', (e) => {
       e.preventDefault();
       const factor = e.deltaY < 0 ? 1.08 : 0.92;
-      scale = Math.max(0.4, Math.min(1.6, scale * factor));
+      scale = Math.max(0.3, Math.min(1.8, scale * factor));
       scheduleTransform();
     }, { passive: false });
 
-    document.getElementById('btn-zoom-in').addEventListener('click', () => { scale = Math.min(1.6, scale * 1.15); updateTransform(); });
-    document.getElementById('btn-zoom-out').addEventListener('click', () => { scale = Math.max(0.4, scale * 0.85); updateTransform(); });
-    document.getElementById('btn-zoom-reset').addEventListener('click', () => { panX = 40; panY = 20; scale = 0.82; updateTransform(); });
+    // Touch pan (1-finger drag) & pinch-to-zoom (2-finger midpoint zoom) for iPad/Phone
+    let _touchMode = 'none';
+    let _tStartX = 0, _tStartY = 0, _tOriginPanX = 0, _tOriginPanY = 0, _touchMoved = false;
+    let _pinchStartDist = 0, _pinchStartScale = 1, _pinchMidWorldX = 0, _pinchMidWorldY = 0;
+
+    viewportEl.addEventListener('touchstart', (e) => {
+      if (e.target.closest('.hud-capabilities-bar') || e.target.closest('.hud-radar-panel') || e.target.closest('.map-zoom-controls')) {
+        _touchMode = 'none';
+        return;
+      }
+      if (e.touches.length === 1) {
+        _touchMode = 'pan';
+        _touchMoved = false;
+        _tStartX = e.touches[0].clientX;
+        _tStartY = e.touches[0].clientY;
+        _tOriginPanX = panX;
+        _tOriginPanY = panY;
+      } else if (e.touches.length === 2) {
+        _touchMode = 'pinch';
+        _touchMoved = true;
+        const t0 = e.touches[0], t1 = e.touches[1];
+        _pinchStartDist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY) || 1;
+        _pinchStartScale = scale;
+        const rect = viewportEl.getBoundingClientRect();
+        const midX = ((t0.clientX + t1.clientX) * 0.5) - rect.left;
+        const midY = ((t0.clientY + t1.clientY) * 0.5) - rect.top;
+        _pinchMidWorldX = (midX - panX) / scale;
+        _pinchMidWorldY = (midY - panY) / scale;
+      }
+    }, { passive: true });
+
+    viewportEl.addEventListener('touchmove', (e) => {
+      if (_touchMode === 'pan' && e.touches.length === 1) {
+        const dx = e.touches[0].clientX - _tStartX;
+        const dy = e.touches[0].clientY - _tStartY;
+        if (!_touchMoved && Math.hypot(dx, dy) > 6) _touchMoved = true;
+        if (_touchMoved) {
+          if (e.cancelable) e.preventDefault();
+          panX = _tOriginPanX + dx;
+          panY = _tOriginPanY + dy;
+          scheduleTransform();
+        }
+      } else if (_touchMode === 'pinch' && e.touches.length >= 2) {
+        if (e.cancelable) e.preventDefault();
+        const t0 = e.touches[0], t1 = e.touches[1];
+        const dist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY) || 1;
+        const nextScale = Math.max(0.3, Math.min(1.8, _pinchStartScale * (dist / _pinchStartDist)));
+        const rect = viewportEl.getBoundingClientRect();
+        const midX = ((t0.clientX + t1.clientX) * 0.5) - rect.left;
+        const midY = ((t0.clientY + t1.clientY) * 0.5) - rect.top;
+        scale = nextScale;
+        panX = midX - _pinchMidWorldX * scale;
+        panY = midY - _pinchMidWorldY * scale;
+        scheduleTransform();
+      }
+    }, { passive: false });
+
+    viewportEl.addEventListener('touchend', (e) => {
+      if (_touchMoved && e.cancelable) e.preventDefault();
+      if (e.touches.length === 1 && _touchMode === 'pinch') {
+        _touchMode = 'pan';
+        _tStartX = e.touches[0].clientX;
+        _tStartY = e.touches[0].clientY;
+        _tOriginPanX = panX;
+        _tOriginPanY = panY;
+      } else if (e.touches.length === 0) {
+        _touchMode = 'none';
+      }
+    }, { passive: false });
+
+    viewportEl.addEventListener('touchcancel', () => {
+      _touchMode = 'none';
+      _touchMoved = false;
+    });
+
+    document.getElementById('btn-zoom-in').addEventListener('click', () => { scale = Math.min(1.8, scale * 1.15); updateTransform(); });
+    document.getElementById('btn-zoom-out').addEventListener('click', () => { scale = Math.max(0.3, scale * 0.85); updateTransform(); });
+    document.getElementById('btn-zoom-reset').addEventListener('click', () => {
+      const def = getDefaultMapView();
+      panX = def.panX;
+      panY = def.panY;
+      scale = def.scale;
+      updateTransform();
+    });
 
     // -------------------------------------------------------------
     // LINEAR SYLLABUS TRACK
@@ -7986,12 +8455,42 @@ const W16_DiskScheduling = {
       updateClearanceUI();
       renderActiveLabContent();
 
+      closeMobileCodex();
       workbenchOverlay.classList.add('active');
     }
+
+    function openMobileCodex() {
+      const drawer = document.getElementById('wb-codex-drawer');
+      const backdrop = document.getElementById('wb-codex-backdrop');
+      if (drawer) drawer.classList.add('mobile-open');
+      if (backdrop) backdrop.classList.add('open');
+    }
+
+    function closeMobileCodex() {
+      const drawer = document.getElementById('wb-codex-drawer');
+      const backdrop = document.getElementById('wb-codex-backdrop');
+      if (drawer) drawer.classList.remove('mobile-open');
+      if (backdrop) backdrop.classList.remove('open');
+    }
+
+    const wbBtnCodex = document.getElementById('wb-btn-codex');
+    if (wbBtnCodex) {
+      wbBtnCodex.addEventListener('click', () => {
+        const drawer = document.getElementById('wb-codex-drawer');
+        if (drawer && drawer.classList.contains('mobile-open')) closeMobileCodex();
+        else openMobileCodex();
+        Sound.click(940);
+      });
+    }
+    const wbCodexClose = document.getElementById('wb-codex-close');
+    if (wbCodexClose) wbCodexClose.addEventListener('click', closeMobileCodex);
+    const wbCodexBackdrop = document.getElementById('wb-codex-backdrop');
+    if (wbCodexBackdrop) wbCodexBackdrop.addEventListener('click', closeMobileCodex);
 
     function closeWorkbench() {
       Sound.click(800);
       if (_saveTimer !== null) saveState();
+      closeMobileCodex();
       workbenchOverlay.classList.remove('active');
       if (state.isLinearMode) {
         if (_linearDirty) renderLinearSyllabus();
@@ -8737,13 +9236,7 @@ const W16_DiskScheduling = {
       renderTheoryBodyOnly(stage, node.id, rawHtml, teachingEntry);
       populatePedagogyDrawers(stage, node.id);
 
-      // Keep active Selection intact when clicking highlighter swatch buttons
-      stage.onmousedown = (e) => {
-        if (e.target.closest('.pen-swatch-btn')) e.preventDefault();
-      };
-
-      // Live Brush painting on mouseup inside #theory-body-root
-      stage.onmouseup = () => {
+      const tryApplyActivePen = () => {
         if (!state.activePen || state.activePen === 'eraser') return;
         if (state.sabotageMode && teachingEntry && teachingEntry.inlineSabotage) return;
         const bodyRoot = stage.querySelector('#theory-body-root');
@@ -8752,6 +9245,18 @@ const W16_DiskScheduling = {
           Sound.click(1050);
           refreshTheoryBodyAndToolbar(stage, node, rawHtml, teachingEntry);
         }
+      };
+
+      // Keep active Selection intact when clicking highlighter swatch buttons
+      stage.onmousedown = (e) => {
+        if (e.target.closest('.pen-swatch-btn')) e.preventDefault();
+      };
+
+      // Live Brush painting on mouseup or touchend inside #theory-body-root
+      stage.onmouseup = tryApplyActivePen;
+      stage.ontouchend = () => {
+        if (!state.activePen || state.activePen === 'eraser') return;
+        setTimeout(tryApplyActivePen, 120);
       };
 
       stage.onclick = (e) => {
