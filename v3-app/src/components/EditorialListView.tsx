@@ -56,7 +56,7 @@ export const EditorialListView: React.FC = () => {
         pointer.current.tx = Math.min(window.innerWidth - 260, e.clientX);
         pointer.current.ty = Math.max(170, Math.min(window.innerHeight - 200, e.clientY));
       }}
-      className="relative h-full w-full overflow-y-auto bg-[var(--shuta-bg)] px-5 pb-28 pt-24 md:px-12 md:pt-28"
+      className="relative h-full w-full overflow-y-auto bg-[var(--shuta-bg)] px-5 pb-20 pt-14 md:px-12 md:pt-16"
     >
       {/* Subtle Paper Grain */}
       <div className="shuta-grain pointer-events-none fixed inset-0 z-[1]" />

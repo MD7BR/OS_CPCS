@@ -17,6 +17,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
+          'three-vendor': ['three'],
           'knowledge-trove': ['./src/data/knowledgeTrove.json'],
           'simulators-engine': ['./src/simulators/legacySimulators.js'],
           'radix-vendor': [

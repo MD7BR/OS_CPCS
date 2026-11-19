@@ -4,7 +4,7 @@ import { Toaster } from 'sonner';
 import { useKernelStore } from '@/store/useKernelStore';
 import { Pill, ShutaDrawer, ShutaDrawerPanel } from '@/components/ui';
 import { CommandPalette, type OverlayId } from './CommandPalette';
-import { GalleryRoom } from './GalleryRoom';
+import { GalleryRotunda3D } from './GalleryRotunda3D';
 import { EditorialListView } from './EditorialListView';
 import { DraftingCanvas } from './DraftingCanvas';
 import { SplitWorkbench } from './SplitWorkbench';
@@ -36,19 +36,15 @@ export const ExhibitionShell: React.FC = () => {
     setActiveOverlay(id);
   };
 
-  // Close Info popover on outside click
   useEffect(() => {
     if (!infoOpen) return;
     const onDown = (e: MouseEvent) => {
-      if (infoRef.current && !infoRef.current.contains(e.target as Node)) {
-        setInfoOpen(false);
-      }
+      if (infoRef.current && !infoRef.current.contains(e.target as Node)) setInfoOpen(false);
     };
     window.addEventListener('mousedown', onDown);
     return () => window.removeEventListener('mousedown', onDown);
   }, [infoOpen]);
 
-  // Global keyboard shortcuts: TAB cycles Gallery -> List -> Map, ? opens Guide
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName;
@@ -69,77 +65,76 @@ export const ExhibitionShell: React.FC = () => {
   const stagePaused = Boolean(activeDeckId || activeOverlay || cmdOpen);
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-[var(--shuta-bg)] text-[var(--shuta-ink)]">
-      {/* Borderless Floating Top Chrome (Shutabug BAu-nW_top DNA) */}
-      <header className="pointer-events-none fixed left-0 right-0 top-0 z-30 flex h-[4.2rem] items-center justify-between px-5 md:px-8">
-        {/* Left: Crisp Geometric Die Monogram + Minimal Text Links */}
-        <div className="pointer-events-auto flex items-center gap-7">
+    <div className="relative flex h-full w-full flex-col overflow-hidden bg-[#0B0C0E] text-[var(--shuta-ink)]">
+      {/* Slim Pitch-Black Editorial Top Bar (Matching Shutabug Screenshot Header) */}
+      <header className="z-30 flex h-11 shrink-0 items-center justify-between border-b border-white/10 bg-[#0B0C0E] px-4 text-[#F2F2EE] md:px-6">
+        {/* Left: Crisp Monogram + Quiet Editorial Serif Links */}
+        <div className="flex items-center gap-5">
           <button
             type="button"
             onClick={() => setView('gallery')}
-            aria-label="KERNEL//BREACH — Gallery"
-            className="group flex items-center gap-2.5 text-[var(--shuta-ink)] transition-opacity hover:opacity-75"
+            aria-label="KERNEL//BREACH Gallery"
+            className="flex items-center gap-2 text-white transition-opacity hover:opacity-75"
           >
-            <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-              <rect x="1" y="1" width="26" height="26" stroke="currentColor" strokeWidth="1.5" />
-              <rect x="7" y="7" width="14" height="14" stroke="currentColor" strokeWidth="1.5" />
-              <line x1="1" y1="14" x2="7" y2="14" stroke="currentColor" strokeWidth="1.5" />
-              <line x1="21" y1="14" x2="27" y2="14" stroke="currentColor" strokeWidth="1.5" />
-              <line x1="14" y1="1" x2="14" y2="7" stroke="currentColor" strokeWidth="1.5" />
-              <line x1="14" y1="21" x2="14" y2="27" stroke="currentColor" strokeWidth="1.5" />
-              <circle cx="14" cy="14" r="2.2" fill="currentColor" />
+            <svg width="22" height="22" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+              <rect x="1.5" y="1.5" width="25" height="25" stroke="currentColor" strokeWidth="1.6" />
+              <rect x="7" y="7" width="14" height="14" stroke="currentColor" strokeWidth="1.6" />
+              <circle cx="14" cy="14" r="2.4" fill="currentColor" />
             </svg>
-            <span className="hidden font-display text-xs font-extrabold uppercase tracking-[0.06em] sm:inline">
-              KERNEL//BREACH
-            </span>
           </button>
 
-          <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
+          <nav aria-label="Main" className="hidden items-center gap-5 font-serif text-[13px] md:flex">
+            <button
+              type="button"
+              onClick={() => setView('gallery')}
+              className={`transition-opacity hover:opacity-100 ${state.view === 'gallery' ? 'text-white opacity-100' : 'text-white/70'}`}
+            >
+              Index
+            </button>
             <button
               type="button"
               onClick={() => openOverlay('formulas')}
-              className="shuta-link shuta-chrome text-[var(--shuta-ink)]/75 hover:text-[var(--shuta-ink)]"
+              className="text-white/70 transition-opacity hover:text-white"
             >
               Formulas
             </button>
             <button
               type="button"
               onClick={() => openOverlay('glossary')}
-              className="shuta-link shuta-chrome text-[var(--shuta-ink)]/75 hover:text-[var(--shuta-ink)]"
+              className="text-white/70 transition-opacity hover:text-white"
             >
               Glossary
             </button>
             <button
               type="button"
               onClick={() => openOverlay('exam')}
-              className="shuta-link shuta-chrome text-[var(--shuta-ink)]/75 hover:text-[var(--shuta-ink)]"
+              className="text-white/70 transition-opacity hover:text-white"
             >
               Mock Exam
             </button>
             <button
               type="button"
               onClick={() => openOverlay('raid')}
-              className="shuta-link shuta-chrome text-[var(--shuta-ink)]/75 hover:text-[var(--shuta-ink)]"
+              className="text-white/70 transition-opacity hover:text-white"
             >
               Gauntlets
             </button>
 
-            {/* Shutabug-style Compact Info / Colophon Popover (tUPvRa_panel DNA) */}
             <div ref={infoRef} className="relative">
               <button
                 type="button"
                 aria-expanded={infoOpen}
                 onClick={() => setInfoOpen((v) => !v)}
-                className="shuta-link shuta-chrome text-[var(--shuta-ink)]/75 hover:text-[var(--shuta-ink)]"
+                className="text-white/70 transition-opacity hover:text-white"
               >
                 Info
               </button>
 
               {infoOpen && (
-                <div className="absolute left-0 top-9 w-80 rounded-[3px] border border-[var(--shuta-line-strong)] bg-[var(--shuta-bg)] p-5 shadow-2xl">
-                  <div className="shuta-chrome text-[var(--shuta-dim)]">EDITION 03 · ALPHA</div>
-                  <p className="mt-2 font-serif text-sm leading-relaxed text-[var(--shuta-ink)]">
-                    Unofficial AI-generated independent study archive aligned with Silberschatz{' '}
+                <div className="absolute left-0 top-8 z-50 w-80 rounded-[3px] border border-[var(--shuta-line-strong)] bg-[var(--shuta-bg)] p-5 text-[var(--shuta-ink)] shadow-2xl">
+                  <div className="shuta-chrome text-[var(--shuta-dim)]">KERNEL//BREACH · v3 ALPHA</div>
+                  <p className="mt-2 font-serif text-sm leading-relaxed">
+                    Unofficial AI-generated independent OS study archive aligned with Silberschatz{' '}
                     <em>Operating System Concepts (10th Ed.)</em>. Zero instructor or faculty affiliation.
                   </p>
                   <div className="mt-4 flex flex-col divide-y divide-[var(--shuta-line)] border-y border-[var(--shuta-line)]">
@@ -149,7 +144,7 @@ export const ExhibitionShell: React.FC = () => {
                         setInfoOpen(false);
                         triggerRedPill();
                       }}
-                      className="flex items-center justify-between py-2.5 text-left font-mono text-[10.5px] uppercase tracking-[0.12em] text-[var(--shuta-ink)] hover:opacity-65"
+                      className="flex items-center justify-between py-2.5 text-left font-mono text-[10.5px] uppercase tracking-[0.12em] hover:opacity-65"
                     >
                       <span>Full Access Mode (Unlock All)</span>
                       <span>→</span>
@@ -168,21 +163,21 @@ export const ExhibitionShell: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => openOverlay('tutorial')}
-                      className="flex items-center justify-between py-2.5 text-left font-mono text-[10.5px] uppercase tracking-[0.12em] text-[var(--shuta-ink)] hover:opacity-65"
+                      className="flex items-center justify-between py-2.5 text-left font-mono text-[10.5px] uppercase tracking-[0.12em] hover:opacity-65"
                     >
-                      <span>Archive Orientation Guide</span>
+                      <span>Orientation Guide</span>
                       <span>→</span>
                     </button>
                     <a
                       href="../v2/"
-                      className="flex items-center justify-between py-2.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-[var(--shuta-ink)] hover:opacity-65"
+                      className="flex items-center justify-between py-2.5 font-mono text-[10.5px] uppercase tracking-[0.12em] hover:opacity-65"
                     >
-                      <span>Switch to v2 Beta (Silicon)</span>
+                      <span>Switch to v2 Beta</span>
                       <span>↗</span>
                     </a>
                     <a
                       href="../"
-                      className="flex items-center justify-between py-2.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-[var(--shuta-ink)] hover:opacity-65"
+                      className="flex items-center justify-between py-2.5 font-mono text-[10.5px] uppercase tracking-[0.12em] hover:opacity-65"
                     >
                       <span>Switch to v1 Classic</span>
                       <span>↗</span>
@@ -194,32 +189,33 @@ export const ExhibitionShell: React.FC = () => {
           </nav>
         </div>
 
-        {/* Right: Ultra-Minimal 1px-Stroke Utility Icons Only */}
-        <div className="pointer-events-auto flex items-center gap-4">
+        {/* Right: Pill Search Ctrl K + Minimal Utility Icons */}
+        <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={() => setCmdOpen(true)}
-            aria-label="Search Archive (⌘K)"
-            title="Search Archive (⌘K)"
-            className="inline-flex items-center gap-1.5 text-[var(--shuta-ink)] transition-opacity hover:opacity-55"
+            className="inline-flex h-7 items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-3 font-mono text-[10px] text-white/65 transition-colors hover:border-white/50 hover:text-white"
           >
-            <Search className="h-[16px] w-[16px]" strokeWidth={1.5} />
-            <span className="hidden font-mono text-[10px] tracking-[0.12em] text-[var(--shuta-dim)] sm:inline">
-              ⌘K
-            </span>
+            <Search className="h-3 w-3" />
+            <span className="hidden sm:inline">Search</span>
+            <kbd className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] text-white/75">Ctrl K</kbd>
           </button>
+
+          <span className="hidden rounded-full border border-white/20 px-2.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.1em] text-white/75 sm:inline-block">
+            v3 α
+          </span>
 
           <button
             type="button"
             onClick={toggleTheme}
-            aria-label={state.theme === 'paper' ? 'Switch to Dark Mode' : 'Switch to Gallery Paper Mode'}
-            title={state.theme === 'paper' ? 'Switch to Dark Mode' : 'Switch to Gallery Paper Mode'}
-            className="text-[var(--shuta-ink)] transition-opacity hover:opacity-55"
+            aria-label={state.theme === 'paper' ? 'Switch to Dark Gallery' : 'Switch to Light Gallery'}
+            title={state.theme === 'paper' ? 'Dark Gallery' : 'Light Gallery'}
+            className="text-white/75 transition-opacity hover:text-white"
           >
             {state.theme === 'paper' ? (
-              <Moon className="h-[17px] w-[17px]" strokeWidth={1.5} />
+              <Moon className="h-4 w-4" strokeWidth={1.5} />
             ) : (
-              <Sun className="h-[17px] w-[17px]" strokeWidth={1.5} />
+              <Sun className="h-4 w-4" strokeWidth={1.5} />
             )}
           </button>
 
@@ -227,40 +223,81 @@ export const ExhibitionShell: React.FC = () => {
             type="button"
             onClick={toggleSound}
             aria-label="Toggle UI Audio"
-            title={state.soundMuted ? 'Unmute Audio' : 'Mute Audio'}
-            className="hidden text-[var(--shuta-ink)] transition-opacity hover:opacity-55 sm:inline-flex"
+            className="hidden text-white/75 transition-opacity hover:text-white sm:inline-flex"
           >
             {state.soundMuted ? (
-              <VolumeX className="h-[17px] w-[17px]" strokeWidth={1.5} />
+              <VolumeX className="h-4 w-4" strokeWidth={1.5} />
             ) : (
-              <Volume2 className="h-[17px] w-[17px]" strokeWidth={1.5} />
+              <Volume2 className="h-4 w-4" strokeWidth={1.5} />
             )}
           </button>
 
           <button
             type="button"
             onClick={() => openOverlay('profile')}
-            title={`Operator Profile · LVL ${rankInfo.level} · ${state.xp} XP`}
-            className="shuta-chrome text-[var(--shuta-ink)] transition-opacity hover:opacity-55"
+            title={`Operator · LVL ${rankInfo.level} · ${state.xp} XP`}
+            className="font-mono text-[10.5px] tracking-[0.12em] text-white/80 hover:text-white"
           >
-            {String(state.masteredNodes.length).padStart(2, '0')}/21
+            ({state.masteredNodes.length}/21)
           </button>
 
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
             aria-label="Open Menu"
-            className="text-[var(--shuta-ink)] md:hidden"
+            className="text-white md:hidden"
           >
-            <Menu className="h-5 w-5" strokeWidth={1.5} />
+            <Menu className="h-4 w-4" />
           </button>
         </div>
       </header>
 
-      {/* Full-Viewport Open Stage */}
-      <main className="h-full w-full">
+      {/* Main Viewport Stage */}
+      <main className="relative min-h-0 flex-1 overflow-hidden">
+        {/* Top-Right Floating [ GALLERY | LIST | MAP ] Pill Switch (Exact Shutabug Screenshot Position) */}
+        {!activeDeckId && (
+          <div className="fixed right-4 top-14 z-20 md:right-6">
+            <fieldset className="inline-flex items-center rounded-full border border-[#141413]/75 bg-[#2A2B2E]/90 p-[2px] shadow-md backdrop-blur-md">
+              <legend className="sr-only">View</legend>
+              <button
+                type="button"
+                aria-pressed={state.view === 'gallery'}
+                onClick={() => setView('gallery')}
+                className={`rounded-full px-3 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.14em] transition-colors ${
+                  state.view === 'gallery' ? 'bg-white text-[#111110]' : 'text-white/70 hover:text-white'
+                }`}
+              >
+                Gallery
+              </button>
+              <button
+                type="button"
+                aria-pressed={state.view === 'list'}
+                onClick={() => setView('list')}
+                className={`rounded-full px-3 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.14em] transition-colors ${
+                  state.view === 'list' ? 'bg-white text-[#111110]' : 'text-white/70 hover:text-white'
+                }`}
+              >
+                List
+              </button>
+              <button
+                type="button"
+                aria-pressed={state.view === 'canvas'}
+                onClick={() => setView('canvas')}
+                className={`rounded-full px-3 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.14em] transition-colors ${
+                  state.view === 'canvas' ? 'bg-white text-[#111110]' : 'text-white/70 hover:text-white'
+                }`}
+              >
+                Map
+              </button>
+            </fieldset>
+          </div>
+        )}
+
         {state.view === 'gallery' ? (
-          <GalleryRoom paused={stagePaused} />
+          <GalleryRotunda3D
+            paused={stagePaused}
+            onOpenBossRaid={(secId) => openOverlay('raid', secId)}
+          />
         ) : state.view === 'list' ? (
           <EditorialListView />
         ) : (
@@ -271,40 +308,7 @@ export const ExhibitionShell: React.FC = () => {
         )}
       </main>
 
-      {/* Bottom-Center Floating Shutabug Gallery | List | Map Pill Switch (_7NwgQq_switch DNA) */}
-      {!activeDeckId && (
-        <div
-          className="fixed left-1/2 z-20 -translate-x-1/2"
-          style={{ bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))' }}
-        >
-          <fieldset className="shuta-switch">
-            <legend className="sr-only">View</legend>
-            <button
-              type="button"
-              aria-pressed={state.view === 'gallery'}
-              onClick={() => setView('gallery')}
-            >
-              Gallery
-            </button>
-            <button
-              type="button"
-              aria-pressed={state.view === 'list'}
-              onClick={() => setView('list')}
-            >
-              List
-            </button>
-            <button
-              type="button"
-              aria-pressed={state.view === 'canvas'}
-              onClick={() => setView('canvas')}
-            >
-              Map
-            </button>
-          </fieldset>
-        </div>
-      )}
-
-      {/* Mobile Navigation Slide-Over Drawer */}
+      {/* Mobile Navigation Drawer */}
       <ShutaDrawer open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
         <ShutaDrawerPanel side="right" title="Archive" kicker="KERNEL//BREACH v3 ALPHA · UNOFFICIAL AI">
           <div className="flex flex-col gap-5">
@@ -347,7 +351,7 @@ export const ExhibitionShell: React.FC = () => {
         </ShutaDrawerPanel>
       </ShutaDrawer>
 
-      {/* Focused Split Monograph & Simulator Studio */}
+      {/* Split Monograph & Interactive Simulator Studio */}
       <SplitWorkbench />
 
       {/* Global Command-K Search */}

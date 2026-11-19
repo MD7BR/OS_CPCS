@@ -360,7 +360,7 @@ export const DraftingCanvas: React.FC<DraftingCanvasProps> = ({ paused, onOpenBo
       {/* Minimal Top-Left Capabilities Strip */}
       <div
         data-hud="true"
-        className="absolute left-5 top-[4.8rem] z-20 max-w-[calc(100%-2.5rem)] rounded-[3px] border border-[var(--shuta-line-strong)] bg-[var(--shuta-veil)] p-2.5 backdrop-blur-md"
+        className="absolute left-4 top-4 z-20 max-w-[calc(100%-15rem)] rounded-[3px] border border-[var(--shuta-line-strong)] bg-[var(--shuta-veil)] p-2.5 backdrop-blur-md"
       >
         <div className="mb-1.5 flex items-center justify-between gap-3">
           <span className="shuta-chrome text-[var(--shuta-dim)]">Capabilities</span>
