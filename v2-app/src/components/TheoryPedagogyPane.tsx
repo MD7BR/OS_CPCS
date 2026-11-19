@@ -123,9 +123,9 @@ export const TheoryPedagogyPane: React.FC<TheoryPedagogyPaneProps> = ({ deckId }
   const rawHtml = useMemo(() => {
     const base = theoryEntry?.html || '<p>No theory content available.</p>';
     if (sabotageMode && teachingEntry?.inlineSabotage && !sabotageCaught) {
-      const { find, sabotaged } = teachingEntry.inlineSabotage;
-      if (base.includes(find)) {
-        return base.replace(find, `<span class="sabotage-target" data-sabotage="true">${sabotaged}</span>`);
+      const { find, corrupt } = teachingEntry.inlineSabotage;
+      if (find && corrupt && base.includes(find)) {
+        return base.replace(find, `<span class="sabotage-target" data-sabotage="true">${corrupt}</span>`);
       }
     }
     return base;
@@ -396,7 +396,7 @@ export const TheoryPedagogyPane: React.FC<TheoryPedagogyPaneProps> = ({ deckId }
         <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-destructive/50 bg-destructive/10 px-3.5 py-2.5 font-mono text-xs text-destructive">
           <span>
             {sabotageCaught
-              ? `✓ Sabotage Exposed: ${teachingEntry.inlineSabotage.explanation}`
+              ? `✓ Sabotage Exposed: ${teachingEntry.inlineSabotage.why}`
               : '⚠️ SABOTAGE ACTIVE: One factual error was silently injected into the lecture text below. Click the falsified phrase to catch it!'}
           </span>
           <Button size="sm" variant="outline" onClick={() => setSabotageMode(false)}>
@@ -516,11 +516,12 @@ export const TheoryPedagogyPane: React.FC<TheoryPedagogyPaneProps> = ({ deckId }
                 const solved = state.spottedBugs.includes(`${deckId}:${hIdx}`);
                 return (
                   <div key={hIdx} className="rounded-lg border border-border bg-card p-3.5">
-                    <div className="mb-1 font-display text-xs font-bold text-foreground">{h.title}</div>
+                    <div className="mb-1 font-display text-xs font-bold text-foreground">{h.type}</div>
                     <p className="mb-2.5 font-sans text-xs text-muted-foreground">{h.prompt}</p>
                     <div className="flex flex-col gap-1.5">
-                      {h.items.map((stmt, iIdx) => {
+                      {(h.items || []).map((stmt, iIdx) => {
                         const isBug = iIdx === h.bugIdx;
+                        const hasNumPrefix = /^\d+\.\s/.test(stmt);
                         return (
                           <button
                             key={iIdx}
@@ -540,7 +541,9 @@ export const TheoryPedagogyPane: React.FC<TheoryPedagogyPaneProps> = ({ deckId }
                                 : 'border-border bg-secondary/50 text-foreground hover:border-amber-400/70'
                             }`}
                           >
-                            <span className="font-mono text-[10px] font-bold opacity-70">{iIdx + 1}.</span>
+                            {!hasNumPrefix && (
+                              <span className="font-mono text-[10px] font-bold opacity-70">{iIdx + 1}.</span>
+                            )}
                             <span className="flex-1">{stmt}</span>
                             {solved && isBug && <CheckCircle2 className="h-4 w-4 shrink-0 text-accent" />}
                           </button>

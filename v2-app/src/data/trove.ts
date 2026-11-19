@@ -9,7 +9,7 @@ export interface TheoryEntry {
 
 export interface QuizQuestion {
   q: string;
-  options: string[];
+  opts: string[];
   answer: number;
   explanation: string;
 }
@@ -18,7 +18,8 @@ export interface FormulaItem {
   name: string;
   category: string;
   formula: string;
-  notes: string;
+  desc: string;
+  vars?: string;
 }
 
 export interface GlossaryItem {
@@ -28,7 +29,7 @@ export interface GlossaryItem {
 }
 
 export interface BugHuntItem {
-  title: string;
+  type: string;
   prompt: string;
   items: string[];
   bugIdx: number;
@@ -43,8 +44,8 @@ export interface SocraticItem {
 export interface TeachingTroveEntry {
   inlineSabotage?: {
     find: string;
-    sabotaged: string;
-    explanation: string;
+    corrupt: string;
+    why: string;
   };
   bugHunts?: BugHuntItem[];
   socratic?: SocraticItem[];

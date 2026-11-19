@@ -105,7 +105,7 @@ export const ModalsSuite: React.FC<ModalsSuiteProps> = ({
         pool.push({
           sourceLabel: `Deck ${node?.deckNumber} · MCQ`,
           prompt: q.q,
-          options: q.options,
+          options: q.opts || [],
           answer: q.answer,
           explanation: q.explanation,
         })
@@ -114,8 +114,8 @@ export const ModalsSuite: React.FC<ModalsSuiteProps> = ({
       hunts.forEach((h) =>
         pool.push({
           sourceLabel: `Deck ${node?.deckNumber} · Bug Hunt`,
-          prompt: `${h.title} — ${h.prompt}`,
-          options: h.items,
+          prompt: `${h.type} — ${h.prompt}`,
+          options: h.items || [],
           answer: h.bugIdx,
           explanation: h.fix,
         })
@@ -201,7 +201,12 @@ export const ModalsSuite: React.FC<ModalsSuiteProps> = ({
                   className="rounded border-l-2 border-primary bg-muted/70 px-3 py-2 font-mono text-xs text-primary"
                   dangerouslySetInnerHTML={{ __html: f.formula }}
                 />
-                <p className="font-sans text-[11.5px] leading-relaxed text-muted-foreground">{f.notes}</p>
+                <p className="font-sans text-[11.5px] leading-relaxed text-muted-foreground">{f.desc}</p>
+                {f.vars && (
+                  <p className="font-mono text-[10px] text-muted-foreground/80">
+                    <strong>Vars:</strong> {f.vars}
+                  </p>
+                )}
               </div>
             )}
           />
@@ -424,7 +429,9 @@ export const ModalsSuite: React.FC<ModalsSuiteProps> = ({
                           }}
                           className={`flex items-start gap-2 rounded-md border px-3 py-2.5 text-left font-sans text-xs transition-colors ${cls}`}
                         >
-                          <span className="font-mono text-[10px] font-bold">{String.fromCharCode(65 + oIdx)}.</span>
+                          {!/^([A-D]\)|\d+\.)\s/.test(opt) && (
+                            <span className="font-mono text-[10px] font-bold">{String.fromCharCode(65 + oIdx)}.</span>
+                          )}
                           <span className="flex-1">{opt}</span>
                           {answered && isCorrect && <CheckCircle2 className="h-4 w-4 text-accent" />}
                           {answered && isChosen && !isCorrect && <XCircle className="h-4 w-4 text-destructive" />}

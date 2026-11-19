@@ -70,7 +70,7 @@ export const ExamDrillPane: React.FC<ExamDrillPaneProps> = ({ deckId }) => {
             <p className="mb-3 font-sans text-sm font-semibold leading-relaxed text-foreground">{q.q}</p>
 
             <div className="grid grid-cols-1 gap-2">
-              {q.options.map((opt, optIdx) => {
+              {(q.opts || []).map((opt, optIdx) => {
                 const isSelected = picked?.selected === optIdx;
                 const isAnswer = optIdx === q.answer;
                 let cls = 'border-border bg-secondary/50 text-foreground hover:border-primary/60 hover:bg-primary/10';
@@ -83,6 +83,7 @@ export const ExamDrillPane: React.FC<ExamDrillPaneProps> = ({ deckId }) => {
                     cls = 'border-border/50 bg-muted/30 text-muted-foreground opacity-70';
                   }
                 }
+                const hasLetterPrefix = /^[A-D]\)\s/.test(opt);
                 return (
                   <button
                     key={optIdx}
@@ -95,9 +96,11 @@ export const ExamDrillPane: React.FC<ExamDrillPaneProps> = ({ deckId }) => {
                     }}
                     className={`spark-trigger flex items-start gap-2.5 rounded-md border px-3 py-2.5 text-left font-sans text-xs transition-all ${cls}`}
                   >
-                    <span className="mt-0.5 font-mono text-[10px] font-bold opacity-80">
-                      {String.fromCharCode(65 + optIdx)}.
-                    </span>
+                    {!hasLetterPrefix && (
+                      <span className="mt-0.5 font-mono text-[10px] font-bold opacity-80">
+                        {String.fromCharCode(65 + optIdx)}.
+                      </span>
+                    )}
                     <span className="flex-1 leading-relaxed">{opt}</span>
                     {picked && isAnswer && <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent" />}
                     {picked && isSelected && !isAnswer && <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />}
