@@ -3695,6 +3695,32 @@ kbd {
   letter-spacing: 0.06em;
 }
 
+.v3-alpha-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  border-color: var(--color-amber) !important;
+  background: rgba(255, 184, 0, 0.14) !important;
+  color: var(--color-amber) !important;
+  font-weight: 700;
+}
+
+.v3-alpha-btn:hover {
+  background: rgba(255, 184, 0, 0.24) !important;
+  box-shadow: 0 0 12px rgba(255, 184, 0, 0.35);
+}
+
+.v3-alpha-btn .alpha-tag {
+  font-size: 8.5px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: var(--color-amber);
+  color: #06090F;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
   </style>
 </head>
 <body>
@@ -3738,6 +3764,7 @@ kbd {
       </div>
 
       <div class="header-right">
+        <a class="icon-btn v3-alpha-btn" id="btn-open-v3-alpha" href="./v3/" title="Try KERNEL//BREACH v3 (Alpha) — Archival Monograph &amp; Editorial Studio">✦ v3 <span class="alpha-tag">ALPHA</span></a>
         <a class="icon-btn v2-beta-btn" id="btn-open-v2-beta" href="./v2/" title="Try KERNEL//BREACH v2 (Beta) — Synchronized Split Workbench, Command-K &amp; Bento Track">⚡ v2 <span class="beta-tag">BETA</span></a>
         <button class="icon-btn resume-btn" id="btn-resume-deck" style="display: none;" title="Resume Last Studied Deck">▶ RESUME</button>
         <button class="icon-btn raid-btn" id="btn-open-raid" title="Weak-Spot Raid &amp; 7 Sector Boss Gauntlets">⚔️ RAID/BOSS</button>

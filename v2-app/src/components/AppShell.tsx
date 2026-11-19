@@ -361,6 +361,15 @@ export const AppShell: React.FC = () => {
             </Button>
 
             <a
+              href="../v3/"
+              className="inline-flex h-8 items-center gap-1 rounded-md border border-amber-500/50 bg-amber-500/15 px-2.5 font-mono text-[10.5px] font-bold text-amber-400 transition-colors hover:bg-amber-500/25"
+              title="Open KERNEL//BREACH v3 Alpha (Archival Editorial Edition)"
+            >
+              <span>✦ v3 ALPHA</span>
+              <ExternalLink className="h-3 w-3" />
+            </a>
+
+            <a
               href="../"
               className="inline-flex h-8 items-center gap-1 rounded-md border border-border bg-secondary px-2.5 font-mono text-[10.5px] font-semibold text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
               title="Open preserved v1 Classic single-file version"

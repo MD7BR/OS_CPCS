@@ -1,0 +1,725 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root,
+  [data-theme="paper"] {
+    /* Shutabug-Inspired Archival Gallery Stone (Default Daylight Mode) */
+    --shuta-bg: #F2F2F0;
+    --shuta-ink: #111110;
+    --shuta-dim: #686865;
+    --shuta-line: rgba(17, 17, 16, 0.14);
+    --shuta-line-strong: rgba(17, 17, 16, 0.45);
+    --shuta-panel: #E8E8E4;
+    --shuta-card: #F8F8F6;
+    --shuta-veil: rgba(242, 242, 240, 0.84);
+    --shuta-warn: #7A5F24;
+    --shuta-live: #17703C;
+    --shuta-error: #A40000;
+    --shuta-accent: #C84B20;
+
+    /* Shadcn HSL Token Contract */
+    --background: 60 6% 95%;
+    --foreground: 60 3% 6%;
+    --card: 60 11% 97%;
+    --card-foreground: 60 3% 6%;
+    --popover: 60 11% 97%;
+    --popover-foreground: 60 3% 6%;
+    --primary: 60 3% 6%;
+    --primary-foreground: 60 6% 95%;
+    --secondary: 60 6% 90%;
+    --secondary-foreground: 60 3% 6%;
+    --muted: 60 6% 90%;
+    --muted-foreground: 60 2% 40%;
+    --accent: 145 66% 26%;
+    --accent-foreground: 60 11% 97%;
+    --destructive: 0 100% 32%;
+    --destructive-foreground: 60 11% 97%;
+    --border: 60 3% 82%;
+    --input: 60 3% 78%;
+    --ring: 60 3% 6%;
+    --radius: 0.25rem;
+
+    /* Bridge Tokens for 22 Interactive Simulators & Knowledge Trove */
+    --color-cyan: #111110;
+    --color-amber: #8A6416;
+    --color-emerald: #17703C;
+    --color-crimson: #A40000;
+    --color-violet: #5A3D94;
+    --bg-deep: #F2F2F0;
+    --bg-panel: #F8F8F6;
+    --bg-card: #FFFFFF;
+    --border-trace: rgba(17, 17, 16, 0.14);
+    --border-light: rgba(17, 17, 16, 0.24);
+    --text-primary: #111110;
+    --text-secondary: #2B2B29;
+    --text-muted: #686865;
+    --font-display: 'Syne', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --os-paper-bg: #FCFBF7;
+    --os-paper-rule: rgba(17, 17, 16, 0.08);
+    --os-paper-margin: rgba(164, 0, 0, 0.32);
+    --spotlight-rgb: 17, 17, 16;
+    --ease-out: cubic-bezier(.22, 1, .36, 1);
+    --ease-soft: cubic-bezier(.2, .7, .2, 1);
+    color-scheme: light;
+  }
+
+  [data-theme="dark"] {
+    /* Shutabug Pitch Gallery Obsidian & Brushed Gold Ochre */
+    --shuta-bg: #080807;
+    --shuta-ink: #F5F5F2;
+    --shuta-dim: #8A8A83;
+    --shuta-line: rgba(245, 245, 242, 0.14);
+    --shuta-line-strong: rgba(245, 245, 242, 0.45);
+    --shuta-panel: #131311;
+    --shuta-card: #0E0E0C;
+    --shuta-veil: rgba(8, 8, 7, 0.84);
+    --shuta-warn: #C9A961;
+    --shuta-live: #4CCF7F;
+    --shuta-error: #FF8A80;
+    --shuta-accent: #E87443;
+
+    --background: 60 6% 3%;
+    --foreground: 60 12% 96%;
+    --card: 60 8% 6%;
+    --card-foreground: 60 12% 96%;
+    --popover: 60 8% 6%;
+    --popover-foreground: 60 12% 96%;
+    --primary: 60 12% 96%;
+    --primary-foreground: 60 6% 3%;
+    --secondary: 60 6% 11%;
+    --secondary-foreground: 60 12% 94%;
+    --muted: 60 6% 10%;
+    --muted-foreground: 60 3% 54%;
+    --accent: 143 58% 55%;
+    --accent-foreground: 60 6% 3%;
+    --destructive: 5 100% 75%;
+    --destructive-foreground: 60 6% 3%;
+    --border: 60 4% 17%;
+    --input: 60 4% 20%;
+    --ring: 42 49% 58%;
+
+    --color-cyan: #C9A961;
+    --color-amber: #DFB75B;
+    --color-emerald: #4CCF7F;
+    --color-crimson: #FF8A80;
+    --color-violet: #C4B5FD;
+    --bg-deep: #080807;
+    --bg-panel: #0E0E0C;
+    --bg-card: #141412;
+    --border-trace: rgba(245, 245, 242, 0.14);
+    --border-light: rgba(245, 245, 242, 0.24);
+    --text-primary: #F5F5F2;
+    --text-secondary: #D4D4CE;
+    --text-muted: #8A8A83;
+    --os-paper-bg: #12120F;
+    --os-paper-rule: rgba(201, 169, 97, 0.1);
+    --os-paper-margin: rgba(255, 138, 128, 0.38);
+    --spotlight-rgb: 201, 169, 97;
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: var(--shuta-line);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100vh;
+    height: 100dvh;
+    width: 100%;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--shuta-bg);
+    color: var(--shuta-ink);
+    font-family: var(--font-body);
+  }
+}
+
+/* Signature Shutabug Micro-Chrome & Kinetic Interactions */
+.shuta-chrome {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.shuta-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding-bottom: 2px;
+  transition: color 0.16s ease, opacity 0.16s ease;
+}
+
+.shuta-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  transition: transform 0.32s cubic-bezier(.2, .7, .2, 1);
+}
+
+.shuta-link:hover::after,
+.shuta-link[data-active="true"]::after {
+  transform: scaleX(1);
+}
+
+.shuta-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  border: 1px solid var(--shuta-line-strong);
+  background: transparent;
+  color: var(--shuta-ink);
+  cursor: pointer;
+  transition: background-color 0.16s ease, color 0.16s ease, transform 0.22s cubic-bezier(.22, 1, .36, 1);
+}
+
+.shuta-close-btn:hover {
+  background-color: var(--shuta-ink);
+  color: var(--shuta-bg);
+  transform: rotate(90deg);
+}
+
+.shuta-ink-btn {
+  border: 1px solid var(--shuta-ink);
+  background-color: var(--shuta-ink);
+  color: var(--shuta-bg);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.shuta-ink-btn:hover {
+  opacity: 0.84;
+}
+
+/* =====================================================================
+   EDITORIAL MONOGRAPH TYPOGRAPHY (SILBERSCHATZ 10TH ED. CHAPTERS)
+   ===================================================================== */
+.theory-article {
+  font-family: var(--font-body);
+  line-height: 1.74;
+  color: var(--text-primary);
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.theory-banner {
+  border-top: 2px solid var(--shuta-ink);
+  border-bottom: 1px solid var(--shuta-line);
+  padding: 18px 0 16px;
+  margin-bottom: 22px;
+  background: transparent;
+}
+
+.theory-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--shuta-dim);
+  margin-bottom: 8px;
+}
+
+.theory-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.08;
+  color: var(--shuta-ink);
+  margin-bottom: 8px;
+}
+
+.theory-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--shuta-dim);
+}
+
+.theory-article h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--shuta-ink);
+  margin: 26px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--shuta-line);
+}
+
+.theory-article h4 {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--shuta-ink);
+  margin: 12px 0 6px;
+}
+
+.theory-article p {
+  margin: 10px 0 14px;
+  color: var(--text-secondary);
+}
+
+.theory-article ul,
+.theory-article ol {
+  margin: 10px 0 16px;
+  padding-left: 20px;
+  color: var(--text-secondary);
+}
+
+.theory-article li {
+  margin: 6px 0;
+}
+
+.theory-article strong {
+  color: var(--shuta-ink);
+  font-weight: 600;
+}
+
+.theory-article code {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  background: var(--shuta-panel);
+  color: var(--shuta-ink);
+  padding: 1px 5px;
+  border-radius: 2px;
+  border: 1px solid var(--shuta-line);
+}
+
+.callout {
+  border-radius: 2px;
+  padding: 15px 18px;
+  margin: 16px 0;
+  border: 1px solid var(--shuta-line);
+  background: var(--shuta-card);
+}
+
+.callout-title {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.callout-objectives {
+  border-left: 3px solid var(--shuta-ink);
+}
+.callout-objectives .callout-title { color: var(--shuta-ink); }
+
+.callout-intuition {
+  border-left: 3px solid var(--shuta-warn);
+  background: color-mix(in srgb, var(--shuta-warn) 6%, var(--shuta-card));
+}
+.callout-intuition .callout-title { color: var(--shuta-warn); }
+
+.callout-definition {
+  border-left: 3px solid var(--shuta-live);
+  background: color-mix(in srgb, var(--shuta-live) 5%, var(--shuta-card));
+}
+.callout-definition .callout-title { color: var(--shuta-live); }
+
+.callout-exam,
+.callout-trap {
+  border-left: 3px solid var(--shuta-error);
+  background: color-mix(in srgb, var(--shuta-error) 5%, var(--shuta-card));
+}
+.callout-exam .callout-title,
+.callout-trap .callout-title { color: var(--shuta-error); }
+
+.callout-example,
+.callout-trace {
+  border-left: 3px solid var(--shuta-dim);
+  background: var(--shuta-panel);
+}
+.callout-example .callout-title,
+.callout-trace .callout-title { color: var(--shuta-ink); }
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.compare-card {
+  background: var(--shuta-card);
+  border: 1px solid var(--shuta-line);
+  border-radius: 2px;
+  padding: 14px 16px;
+}
+
+.ascii-diagram,
+.code-block {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.55;
+  background: var(--shuta-panel);
+  color: var(--shuta-ink);
+  border: 1px solid var(--shuta-line);
+  border-radius: 2px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 14px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  margin: 14px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid var(--shuta-line);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.data-table th {
+  background: var(--shuta-panel);
+  color: var(--shuta-ink);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.data-table tbody tr:hover {
+  background: color-mix(in srgb, var(--shuta-ink) 4%, transparent);
+}
+
+.formula-display {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: var(--shuta-panel);
+  border: 1px solid var(--shuta-line);
+  border-left: 3px solid var(--shuta-ink);
+  border-radius: 2px;
+  padding: 12px 14px;
+  margin: 14px 0;
+  color: var(--shuta-ink);
+}
+
+/* 4-Color Archival Semantic Keywords (Interactive Footnote HoverCards) */
+.kw-term {
+  display: inline;
+  padding: 0 3px;
+  border-radius: 2px;
+  font-weight: 500;
+  cursor: help;
+  border-bottom: 1px dotted currentColor;
+  transition: background-color 0.15s ease;
+}
+.kw-hw { color: var(--shuta-ink); background: color-mix(in srgb, var(--shuta-ink) 9%, transparent); }
+.kw-hazard { color: var(--shuta-error); background: color-mix(in srgb, var(--shuta-error) 10%, transparent); }
+.kw-sync { color: var(--shuta-live); background: color-mix(in srgb, var(--shuta-live) 10%, transparent); }
+.kw-struct { color: var(--shuta-warn); background: color-mix(in srgb, var(--shuta-warn) 12%, transparent); }
+
+/* Active Recall Cloze Blur */
+.recall-blur-active .theory-article strong,
+.recall-blur-active .theory-article code,
+.recall-blur-active .theory-article .kw-term {
+  filter: blur(5px);
+  background: var(--shuta-panel);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+.recall-blur-active .theory-article strong.recall-revealed,
+.recall-blur-active .theory-article code.recall-revealed,
+.recall-blur-active .theory-article .kw-term.recall-revealed,
+.recall-blur-active .theory-article strong:hover,
+.recall-blur-active .theory-article code:hover,
+.recall-blur-active .theory-article .kw-term:hover {
+  filter: none;
+}
+
+/* Persistent 4-Color Highlighter Marks */
+.user-hl {
+  border-radius: 2px;
+  padding: 0 2px;
+}
+.user-hl-amber { background: rgba(201, 169, 97, 0.36); color: inherit; }
+.user-hl-emerald { background: rgba(76, 207, 127, 0.28); color: inherit; }
+.user-hl-cyan { background: rgba(56, 189, 248, 0.26); color: inherit; }
+.user-hl-crimson { background: rgba(220, 38, 38, 0.22); color: inherit; }
+.eraser-cursor .user-hl {
+  cursor: crosshair;
+  outline: 1px dashed var(--shuta-error);
+}
+
+.sabotage-target {
+  cursor: pointer;
+  border-radius: 2px;
+}
+.sabotage-target.sabotage-caught {
+  background: color-mix(in srgb, var(--shuta-live) 20%, transparent);
+  outline: 1px solid var(--shuta-live);
+  padding: 1px 4px;
+}
+
+/* =====================================================================
+   22 INTERACTIVE SIMULATORS (W0-W19) IN SHUTABUG ARCHIVAL STUDIO STYLE
+   ===================================================================== */
+.sim-card {
+  background: var(--shuta-card);
+  border: 1px solid var(--shuta-line);
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sim-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid var(--shuta-line);
+  padding-bottom: 10px;
+}
+
+.sim-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--shuta-ink);
+}
+
+.sim-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.sim-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sim-canvas {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--shuta-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.btn-industrial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-radius: 2px;
+  border: 1px solid var(--shuta-line-strong);
+  background: transparent;
+  color: var(--shuta-ink);
+  cursor: pointer;
+  transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+  white-space: nowrap;
+}
+.btn-industrial:hover {
+  background: var(--shuta-ink);
+  color: var(--shuta-bg);
+  border-color: var(--shuta-ink);
+}
+.btn-industrial.primary {
+  background: var(--shuta-ink);
+  border-color: var(--shuta-ink);
+  color: var(--shuta-bg);
+}
+.btn-industrial.primary:hover {
+  opacity: 0.82;
+}
+.btn-industrial.danger {
+  border-color: var(--shuta-error);
+  color: var(--shuta-error);
+  background: color-mix(in srgb, var(--shuta-error) 8%, transparent);
+}
+.btn-industrial.danger:hover {
+  background: var(--shuta-error);
+  color: var(--shuta-bg);
+}
+
+.play-controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 2px;
+  background: var(--shuta-panel);
+  border: 1px solid var(--shuta-line);
+}
+
+.play-ctrl {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--shuta-ink);
+}
+
+.play-range {
+  accent-color: var(--shuta-ink);
+  cursor: pointer;
+}
+
+.play-num,
+.play-text,
+.sim-card select {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 2px;
+  border: 1px solid var(--shuta-line-strong);
+  background: var(--shuta-bg);
+  color: var(--shuta-ink);
+}
+
+.formula-sandbox {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 2px;
+  background: var(--shuta-card);
+  border: 1px dashed var(--shuta-line-strong);
+}
+.formula-sandbox-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--shuta-live);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+.formula-sandbox-out {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--shuta-ink);
+  line-height: 1.55;
+}
+
+/* Archival Ruled Paper Sheet ("As Written By Hand" Exam Workings) */
+.handwritten-sheet {
+  margin-top: 12px;
+  padding: 14px 16px 14px 38px;
+  border-radius: 2px;
+  background-color: var(--os-paper-bg);
+  background-image:
+    linear-gradient(to right, transparent 26px, var(--os-paper-margin) 26px, var(--os-paper-margin) 27px, transparent 27px, transparent 29px, var(--os-paper-margin) 29px, var(--os-paper-margin) 30px, transparent 30px),
+    repeating-linear-gradient(to bottom, transparent 0px, transparent 23px, var(--os-paper-rule) 23px, var(--os-paper-rule) 24px);
+  border: 1px solid var(--shuta-line-strong);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--shuta-ink);
+  overflow-x: auto;
+}
+
+.hw-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--shuta-warn);
+  border-bottom: 1px dashed var(--shuta-line-strong);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.hw-step {
+  margin: 5px 0;
+  color: var(--text-secondary);
+}
+
+.hw-ans {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  border: 1px solid var(--shuta-live);
+  background: color-mix(in srgb, var(--shuta-live) 10%, transparent);
+  color: var(--shuta-live);
+  font-weight: 700;
+}
+
+.hw-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-size: 11.5px;
+}
+.hw-table th,
+.hw-table td {
+  border: 1px solid var(--shuta-line);
+  padding: 5px 8px;
+  text-align: left;
+}
+.hw-table th {
+  background: var(--shuta-panel);
+  color: var(--shuta-ink);
+}
+
+@media (max-width: 768px) {
+  .data-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .play-text,
+  input[type="text"],
+  textarea {
+    font-size: 16px !important;
+  }
+  .handwritten-sheet {
+    padding: 12px 12px 12px 32px;
+  }
+}
