@@ -102,7 +102,7 @@ export const SplitWorkbench: React.FC = () => {
       sparkColor={state.theme === 'dark' ? '#C9A961' : '#17703C'}
       sparkCount={8}
       sparkRadius={20}
-      className="fixed inset-0 z-40 flex flex-col bg-[var(--shuta-bg)] text-[var(--shuta-ink)]"
+      className="shuta-look-enter fixed inset-0 z-40 flex flex-col bg-[var(--shuta-bg)]/95 text-[var(--shuta-ink)] backdrop-blur-xl"
     >
       {/* Exhibition Workbench Top Chrome Bar */}
       <header className="relative flex flex-wrap items-center justify-between gap-3 border-b border-[var(--shuta-line)] bg-[var(--shuta-bg)] px-4 py-3 md:px-6">

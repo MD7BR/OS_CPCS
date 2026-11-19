@@ -58,11 +58,17 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onOpenChan
 
               <Command.Group heading="Navigation & Studio" className="shuta-chrome mb-2 px-2 text-[var(--shuta-dim)]">
                 <Command.Item
-                  value="Switch View Index Catalog Drafting Canvas"
-                  onSelect={() => run(() => setView(state.view === 'index' ? 'canvas' : 'index'))}
+                  value="Switch View Gallery Room List Index Drafting Map Canvas"
+                  onSelect={() =>
+                    run(() =>
+                      setView(state.view === 'gallery' ? 'list' : state.view === 'list' ? 'canvas' : 'gallery')
+                    )
+                  }
                   className="flex cursor-pointer items-center justify-between rounded-[2px] px-3 py-2 font-mono text-xs text-[var(--shuta-ink)] aria-selected:bg-[var(--shuta-ink)] aria-selected:text-[var(--shuta-bg)]"
                 >
-                  <span>Switch View → {state.view === 'index' ? 'Drafting Canvas' : 'Editorial Index'}</span>
+                  <span>
+                    Switch View → {state.view === 'gallery' ? 'Editorial List' : state.view === 'list' ? 'Drafting Map' : 'Gallery Room'}
+                  </span>
                   <span className="text-[10px] opacity-70">TAB</span>
                 </Command.Item>
                 <Command.Item

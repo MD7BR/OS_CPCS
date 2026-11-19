@@ -5,7 +5,7 @@ import { TEACHING_TROVE_DATA } from '@/data/trove';
 import { Sound } from '@/lib/sound';
 
 export type ThemeId = 'paper' | 'dark';
-export type ViewMode = 'index' | 'canvas';
+export type ViewMode = 'gallery' | 'list' | 'canvas';
 export type HighlightColor = 'amber' | 'emerald' | 'cyan' | 'crimson';
 export type PenTool = HighlightColor | 'eraser' | null;
 
@@ -71,7 +71,7 @@ export interface PersistedKernelState {
 const STORAGE_KEY = 'kernel_breach_v3_state';
 
 const DEFAULT_STATE: PersistedKernelState = {
-  view: 'index',
+  view: 'gallery',
   theme: 'paper',
   soundMuted: false,
   strictGateMode: false,
@@ -103,7 +103,11 @@ function loadInitialState(): PersistedKernelState {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      return { ...DEFAULT_STATE, ...parsed };
+      const validView: ViewMode =
+        parsed.view === 'list' || parsed.view === 'canvas' || parsed.view === 'gallery'
+          ? parsed.view
+          : 'gallery';
+      return { ...DEFAULT_STATE, ...parsed, view: validView };
     }
     // Seamlessly carry over progress from v2 or v1
     const v2Raw = window.localStorage.getItem('kernel_breach_v2_state');
