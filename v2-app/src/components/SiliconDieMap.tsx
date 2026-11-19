@@ -6,11 +6,62 @@ import { Magnet, ShinyText, Squares, StarBorder } from '@/components/reactbits';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
+const NODE_W = 204;
+const NODE_H = 96;
+
+interface ConduitGeom {
+  d: string;
+  start: { x: number; y: number };
+  end: { x: number; y: number };
+  junction?: { x: number; y: number };
+}
+
+function buildConduitPath(
+  pre: { x: number; y: number },
+  node: { x: number; y: number }
+): ConduitGeom {
+  const preCy = pre.y + NODE_H / 2;
+  const nodeCy = node.y + NODE_H / 2;
+  const preCx = pre.x + NODE_W / 2;
+  const nodeCx = node.x + NODE_W / 2;
+
+  // Same horizontal row: straight right-port -> left-port bus
+  if (Math.abs(pre.y - node.y) <= 12) {
+    const start = { x: pre.x + NODE_W, y: preCy };
+    const end = { x: node.x, y: nodeCy };
+    return { d: `M ${start.x} ${start.y} L ${end.x} ${end.y}`, start, end };
+  }
+
+  // Same vertical column: straight bottom -> top or top -> bottom bus
+  if (Math.abs(pre.x - node.x) <= 12) {
+    const goingDown = node.y > pre.y;
+    const start = { x: preCx, y: goingDown ? pre.y + NODE_H : pre.y };
+    const end = { x: nodeCx, y: goingDown ? node.y : node.y + NODE_H };
+    return { d: `M ${start.x} ${start.y} L ${end.x} ${end.y}`, start, end };
+  }
+
+  // Cross-sector stepped branch: route strictly inside the open inter-sector corridor
+  const start = { x: pre.x + NODE_W, y: preCy };
+  const end = { x: node.x, y: nodeCy };
+  const channelX = Math.round((start.x + end.x) / 2);
+  const r = 10;
+  const dirY = end.y < start.y ? -1 : 1;
+  const d = [
+    `M ${start.x} ${start.y}`,
+    `L ${channelX - r} ${start.y}`,
+    `Q ${channelX} ${start.y} ${channelX} ${start.y + dirY * r}`,
+    `L ${channelX} ${end.y - dirY * r}`,
+    `Q ${channelX} ${end.y} ${channelX + r} ${end.y}`,
+    `L ${end.x} ${end.y}`,
+  ].join(' ');
+  return { d, start, end, junction: { x: channelX, y: start.y } };
+}
+
 function getDefaultView() {
   const vw = typeof window !== 'undefined' ? window.innerWidth : 1280;
-  if (vw <= 640) return { x: 14, y: 78, scale: 0.42 };
-  if (vw <= 1024) return { x: 24, y: 52, scale: 0.6 };
-  return { x: 40, y: 24, scale: 0.78 };
+  if (vw <= 640) return { x: 10, y: 76, scale: 0.38 };
+  if (vw <= 1024) return { x: 20, y: 48, scale: 0.56 };
+  return { x: 32, y: 20, scale: 0.72 };
 }
 
 interface SiliconDieMapProps {
@@ -168,69 +219,134 @@ export const SiliconDieMap: React.FC<SiliconDieMapProps> = ({ paused, onOpenBoss
       <div
         className="absolute left-0 top-0 origin-top-left"
         style={{
-          width: 1920,
-          height: 1320,
+          width: 2040,
+          height: 1360,
           transform: `translate3d(${view.x}px, ${view.y}px, 0) scale(${view.scale})`,
           willChange: 'transform',
         }}
       >
-        {/* Sector Silicon Regions */}
+        {/* Layer 1 (z-[5]): Pronounced Silicon Sector Chassis Regions */}
         {SECTORS.map((sec) => {
-          const bossCleared = state.clearedBosses.includes(sec.id);
           return (
             <div
               key={sec.id}
-              className="pointer-events-none absolute rounded-lg border border-dashed"
+              className="pointer-events-none absolute z-[5] rounded-xl"
               style={{
                 left: sec.bounds.x,
                 top: sec.bounds.y,
                 width: sec.bounds.w,
                 height: sec.bounds.h,
-                borderColor: `${sec.color}44`,
-                background: `${sec.color}08`,
+                border: `2px solid ${sec.color}88`,
+                background: `linear-gradient(180deg, ${sec.color}1C 0%, ${sec.color}0A 100%)`,
+                boxShadow: `0 0 32px ${sec.color}18, inset 0 1px 0 ${sec.color}55`,
               }}
             >
-              <div className="flex items-center justify-between px-3 py-1.5">
-                <span className="font-display text-[11px] font-bold uppercase tracking-widest" style={{ color: sec.color }}>
-                  {sec.name} · {sec.bookChapters}
-                </span>
-                <span className="font-mono text-[10px] text-muted-foreground">
-                  {sec.hex} {bossCleared ? '· ✓ BOSS CLEARED' : ''}
-                </span>
-              </div>
+              {/* Bright Hardware Corner L-Brackets */}
+              <span
+                className="absolute -left-[2px] -top-[2px] h-3.5 w-3.5 rounded-tl-xl border-l-[3px] border-t-[3px]"
+                style={{ borderColor: sec.color }}
+              />
+              <span
+                className="absolute -right-[2px] -top-[2px] h-3.5 w-3.5 rounded-tr-xl border-r-[3px] border-t-[3px]"
+                style={{ borderColor: sec.color }}
+              />
+              <span
+                className="absolute -bottom-[2px] -left-[2px] h-3.5 w-3.5 rounded-bl-xl border-b-[3px] border-l-[3px]"
+                style={{ borderColor: sec.color }}
+              />
+              <span
+                className="absolute -bottom-[2px] -right-[2px] h-3.5 w-3.5 rounded-br-xl border-b-[3px] border-r-[3px]"
+                style={{ borderColor: sec.color }}
+              />
             </div>
           );
         })}
 
-        {/* Orthogonal SVG Bus Conduits */}
-        <svg className="pointer-events-none absolute inset-0 h-full w-full" width={1920} height={1320}>
+        {/* Layer 2 (z-[12]): Zero-Collision Port-to-Port Orthogonal SVG Bus Conduits */}
+        <svg className="pointer-events-none absolute inset-0 z-[12] h-full w-full" width={2040} height={1360}>
           {CURRICULUM_NODES.map((node) =>
             node.prerequisites.map((preId) => {
               const pre = nodeMap.get(preId);
               if (!pre) return null;
-              const x1 = pre.mapCoords.x + 96;
-              const y1 = pre.mapCoords.y + 42;
-              const x2 = node.mapCoords.x + 96;
-              const y2 = node.mapCoords.y + 42;
-              const midX = (x1 + x2) / 2;
+              const geom = buildConduitPath(pre.mapCoords, node.mapCoords);
               const active = state.masteredNodes.includes(preId) && isNodeUnlocked(node.id);
               const bothMastered = state.masteredNodes.includes(preId) && state.masteredNodes.includes(node.id);
-              const stroke = bothMastered ? '#00FFA3' : active ? '#00F0FF' : 'rgba(148,163,184,0.22)';
+              const stroke = bothMastered ? '#00FFA3' : active ? '#00F0FF' : 'rgba(148,163,184,0.28)';
               return (
-                <path
-                  key={`${preId}-${node.id}`}
-                  d={`M ${x1} ${y1} L ${midX} ${y1} L ${midX} ${y2} L ${x2} ${y2}`}
-                  fill="none"
-                  stroke={stroke}
-                  strokeWidth={bothMastered ? 2.5 : active ? 2 : 1.5}
-                  strokeDasharray={active ? undefined : '5 5'}
-                />
+                <g key={`${preId}-${node.id}`}>
+                  {active && (
+                    <path
+                      d={geom.d}
+                      fill="none"
+                      stroke={stroke}
+                      strokeWidth={6}
+                      strokeOpacity={0.14}
+                      strokeLinecap="round"
+                    />
+                  )}
+                  <path
+                    d={geom.d}
+                    fill="none"
+                    stroke={stroke}
+                    strokeWidth={bothMastered ? 2.5 : active ? 2.2 : 1.6}
+                    strokeDasharray={active ? undefined : '6 5'}
+                    strokeLinecap="round"
+                  />
+                  {/* Terminal PCB Connector Pads */}
+                  <circle cx={geom.start.x} cy={geom.start.y} r={3.5} fill={stroke} />
+                  <circle cx={geom.end.x} cy={geom.end.y} r={3.5} fill={stroke} />
+                  {geom.junction && <circle cx={geom.junction.x} cy={geom.junction.y} r={4.5} fill={stroke} />}
+                </g>
               );
             })
           )}
         </svg>
 
-        {/* 21 IC Chip Nodes wrapped in ReactBits <Magnet /> + <StarBorder /> */}
+        {/* Layer 3 (z-[16]): Pronounced Sector Header Bars (Sit cleanly above vertical bus passes) */}
+        {SECTORS.map((sec, idx) => {
+          const bossCleared = state.clearedBosses.includes(sec.id);
+          const masteredCount = sec.nodes.filter((id) => state.masteredNodes.includes(id)).length;
+          return (
+            <div
+              key={`${sec.id}-hdr`}
+              className="pointer-events-none absolute z-[16] flex items-center justify-between gap-2 overflow-hidden rounded-t-[10px] px-3 py-2"
+              style={{
+                left: sec.bounds.x + 2,
+                top: sec.bounds.y + 2,
+                width: sec.bounds.w - 4,
+                background: `linear-gradient(90deg, ${sec.color}32 0%, hsl(var(--card) / 0.94) 72%)`,
+                borderBottom: `1.5px solid ${sec.color}77`,
+              }}
+            >
+              <div className="flex min-w-0 items-center gap-2">
+                <span
+                  className="shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] font-extrabold tracking-wider text-slate-950"
+                  style={{ backgroundColor: sec.color }}
+                >
+                  S{idx + 1}
+                </span>
+                <span className="truncate font-display text-[12px] font-bold uppercase tracking-wider text-foreground">
+                  {sec.name.replace(/^Sector \d+:\s*/, '')}
+                </span>
+                <span
+                  className="shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9.5px] font-semibold"
+                  style={{ borderColor: `${sec.color}66`, color: sec.color, backgroundColor: `${sec.color}18` }}
+                >
+                  {sec.bookChapters}
+                </span>
+              </div>
+              <div className="flex shrink-0 items-center gap-2 font-mono text-[10px]">
+                <span className="font-bold" style={{ color: masteredCount === sec.nodes.length ? '#00FFA3' : sec.color }}>
+                  {masteredCount}/{sec.nodes.length}
+                </span>
+                {bossCleared && <span className="font-bold text-accent">✓ BOSS</span>}
+                <span className="hidden text-muted-foreground sm:inline">{sec.hex}</span>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Layer 4 (z-[20]): 21 IC Chip Nodes wrapped in ReactBits <Magnet /> + <StarBorder /> */}
         {CURRICULUM_NODES.map((node) => {
           const sec = SECTORS.find((s) => s.id === node.sector);
           const unlocked = isNodeUnlocked(node.id);
@@ -242,8 +358,8 @@ export const SiliconDieMap: React.FC<SiliconDieMapProps> = ({ paused, onOpenBoss
             <div
               key={node.id}
               data-node="true"
-              className="absolute"
-              style={{ left: node.mapCoords.x, top: node.mapCoords.y, width: 196 }}
+              className="absolute z-[20]"
+              style={{ left: node.mapCoords.x, top: node.mapCoords.y, width: NODE_W }}
             >
               <Magnet padding={16} magnetStrength={5} disabled={!unlocked}>
                 <StarBorder
@@ -254,7 +370,8 @@ export const SiliconDieMap: React.FC<SiliconDieMapProps> = ({ paused, onOpenBoss
                   <button
                     type="button"
                     onClick={() => openDeck(node.id)}
-                    className={`bezel-card flex w-full flex-col gap-1.5 rounded-[7px] border p-3 text-left transition-all ${
+                    style={{ height: NODE_H }}
+                    className={`bezel-card flex w-full flex-col justify-between gap-1 rounded-[7px] border p-3 text-left transition-all ${
                       mastered
                         ? 'border-accent/60 bg-card hover:border-accent'
                         : unlocked
