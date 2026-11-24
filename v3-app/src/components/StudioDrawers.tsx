@@ -121,8 +121,8 @@ export const StudioDrawers: React.FC<StudioDrawersProps> = ({ activeOverlay, rai
 
   const GUIDE_STEPS = [
     {
-      title: '01 · Editorial Index & Drafting Canvas',
-      body: 'Browse all 21 Silberschatz chapters as an asymmetric exhibition catalog (Index) or inspect cross-sector capability dependencies on the Drafting Canvas. Press TAB anytime to switch views, or ⌘K to search across every plate, term, and formula.',
+      title: '01 · 3D Museum Maze, Kinetic Sculptures & Dollhouse Orbit',
+      body: 'Explore 7 interconnected Three.js museum halls—each with a central kinetic 3D OS sculpture, recessed skylight lighting, and framed plates. Walk in first-person (WASD/Scroll, [L] for Mouse Free-Look) or press [V] for 3D Dollhouse Cutaway Orbit. Press TAB anytime to switch between Gallery, List, and Map.',
     },
     {
       title: '02 · Synchronized Split Monograph Workbench',

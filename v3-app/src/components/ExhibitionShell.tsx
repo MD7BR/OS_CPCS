@@ -4,7 +4,7 @@ import { Toaster } from 'sonner';
 import { useKernelStore } from '@/store/useKernelStore';
 import { Pill, ShutaDrawer, ShutaDrawerPanel } from '@/components/ui';
 import { CommandPalette, type OverlayId } from './CommandPalette';
-import { GalleryRotunda3D } from './GalleryRotunda3D';
+import { GalleryMaze3D } from './GalleryMaze3D';
 import { EditorialListView } from './EditorialListView';
 import { DraftingCanvas } from './DraftingCanvas';
 import { SplitWorkbench } from './SplitWorkbench';
@@ -294,7 +294,7 @@ export const ExhibitionShell: React.FC = () => {
         )}
 
         {state.view === 'gallery' ? (
-          <GalleryRotunda3D
+          <GalleryMaze3D
             paused={stagePaused}
             onOpenBossRaid={(secId) => openOverlay('raid', secId)}
           />
